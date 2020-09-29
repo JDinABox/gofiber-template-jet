@@ -73,7 +73,7 @@ func (e *Engine) Load() error {
 }
 
 // Render the templates
-func (e *Engine) Render(out io.Writer, template string, binding interface{}) error {
+func (e *Engine) Render(out io.Writer, template string, binding interface{}, layout ...string) error {
 	if !e.loaded {
 		if err := e.Load(); err != nil {
 			return err
