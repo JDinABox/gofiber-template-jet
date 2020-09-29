@@ -23,7 +23,7 @@ type Config struct {
 
 // Engine struct
 type Engine struct {
-	config *Config
+	config Config
 	loaded bool
 	// lock for funcmap and templates
 	mutex     sync.RWMutex
@@ -33,12 +33,12 @@ type Engine struct {
 
 // Init returns Engine struct
 func Init(config ...Config) *Engine {
-	if config.extension != ".jet" && config.extension != ".jet.html" && config.extension != ".html.jet" {
+	if config[0].extension != ".jet" && config[0].extension != ".jet.html" && config[0].extension != ".html.jet" {
 		log.Fatalf("Error: Config.extension must be one of these => (.jet, .jet.html, .html.jet)")
 	}
 
 	return &Engine{
-		config:    config,
+		config:    config[0],
 		functions: make(map[string]interface{}),
 	}
 }
