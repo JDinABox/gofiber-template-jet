@@ -1,4 +1,4 @@
-module asset_packaging
+module github.com/JDinABox/gofiber-template-jet
 
 go 1.14
 
