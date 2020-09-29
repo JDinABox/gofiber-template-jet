@@ -32,7 +32,7 @@ type Engine struct {
 }
 
 // Init returns Engine struct
-func Init(config *Config) *Engine {
+func Init(config ...Config) *Engine {
 	if config.extension != ".jet" && config.extension != ".jet.html" && config.extension != ".html.jet" {
 		log.Fatalf("Error: Config.extension must be one of these => (.jet, .jet.html, .html.jet)")
 	}
