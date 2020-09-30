@@ -60,13 +60,13 @@ func (e *Engine) Load() error {
 	defer e.mutex.Unlock()
 
 	e.Templates = jet.NewHTMLSetLoader(multi.NewLoader(
-		jet.NewOSFileSystemLoader(e.config.directory),
-		httpfs.NewLoader(e.config.httpFileSys),
+		jet.NewOSFileSystemLoader(e.config.Directory),
+		httpfs.NewLoader(e.config.HTTPFileSys),
 	))
 	for name, fn := range e.functions {
 		e.Templates.AddGlobal(name, fn)
 	}
-	e.Templates.SetDevelopmentMode(e.config.development)
+	e.Templates.SetDevelopmentMode(e.config.Development)
 	e.loaded = true
 
 	return nil
