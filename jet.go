@@ -28,6 +28,7 @@ type Engine struct {
 	// lock for funcmap and templates
 	mutex     sync.RWMutex
 	functions map[string]interface{}
+	globals   map[string]string
 	Templates *jet.Set
 }
 
@@ -53,6 +54,14 @@ func (e *Engine) AddFunc(name string, fn interface{}) *Engine {
 	return e
 }
 
+// AddGlobal adds Global to the template's Global map
+func (e *Engine) AddGlobal(name string, value string) *Engine {
+	e.mutex.Lock()
+	e.globals[name] = value
+	e.mutex.Unlock()
+	return e
+}
+
 // Load the templates to the engine.
 func (e *Engine) Load() error {
 	// race safe
@@ -63,9 +72,14 @@ func (e *Engine) Load() error {
 		jet.NewOSFileSystemLoader(e.config.Directory),
 		httpfs.NewLoader(e.config.HTTPFileSys),
 	))
+
 	for name, fn := range e.functions {
 		e.Templates.AddGlobal(name, fn)
 	}
+	for name, value := range e.globals {
+		e.Templates.AddGlobal(name, value)
+	}
+
 	e.Templates.SetDevelopmentMode(e.config.Development)
 	e.loaded = true
 
