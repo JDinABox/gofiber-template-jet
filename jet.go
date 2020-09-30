@@ -15,10 +15,10 @@ import (
 
 // Config struct
 type Config struct {
-	directory   string
-	extension   string
-	development bool
-	httpFileSys http.FileSystem
+	Directory   string
+	Extension   string
+	Development bool
+	HTTPFileSys http.FileSystem
 }
 
 // Engine struct
@@ -33,7 +33,7 @@ type Engine struct {
 
 // Init returns Engine struct
 func Init(config ...Config) *Engine {
-	if config[0].extension != ".jet" && config[0].extension != ".jet.html" && config[0].extension != ".html.jet" {
+	if config[0].Extension != ".jet" && config[0].Extension != ".jet.html" && config[0].Extension != ".html.jet" {
 		log.Fatalf("Error: Config.extension must be one of these => (.jet, .jet.html, .html.jet)")
 	}
 
