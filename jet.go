@@ -41,7 +41,7 @@ func Init(config ...Config) *Engine {
 	return &Engine{
 		config:    config[0],
 		functions: make(map[string]interface{}),
-		globals:   make(map[string]string)
+		globals:   make(map[string]string),
 	}
 }
 
