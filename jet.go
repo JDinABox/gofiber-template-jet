@@ -82,7 +82,7 @@ func (e *Engine) Render(out io.Writer, template string, binding interface{}, lay
 
 	tmpl, err := e.Templates.GetTemplate(template)
 	if err != nil || tmpl == nil {
-		return fmt.Errorf("render: template %s does not exist & %s", template, err)
+		return fmt.Errorf("render: template %s does not exist \n %s", template, err)
 	}
 
 	bind := jetVarMap(binding)
