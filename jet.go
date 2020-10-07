@@ -26,10 +26,11 @@ type Engine struct {
 	config Config
 	loaded bool
 	// lock for funcmap and templates
-	mutex     sync.RWMutex
-	functions map[string]interface{}
-	globals   map[string]string
-	Templates *jet.Set
+	mutex         sync.RWMutex
+	functions     map[string]interface{}
+	fastFunctions map[string]jet.Func
+	globals       map[string]string
+	Templates     *jet.Set
 }
 
 // Init returns Engine struct
@@ -43,6 +44,15 @@ func Init(config ...Config) *Engine {
 		functions: make(map[string]interface{}),
 		globals:   make(map[string]string),
 	}
+}
+
+// AddFastFunc adds a Jet fast function
+// Signature: func(jet.Arguments) reflect.Value
+func (e *Engine) AddFastFunc(name string, fn jet.Func) *Engine {
+	e.mutex.Lock()
+	e.fastFunctions[name] = fn
+	e.mutex.Unlock()
+	return e
 }
 
 // AddFunc adds the function to the template's function map.
@@ -76,6 +86,9 @@ func (e *Engine) Load() error {
 
 	for name, fn := range e.functions {
 		e.Templates.AddGlobal(name, fn)
+	}
+	for name, fn := range e.fastFunctions {
+		e.Templates.AddGlobalFunc(name, fn)
 	}
 	for name, value := range e.globals {
 		e.Templates.AddGlobal(name, value)
