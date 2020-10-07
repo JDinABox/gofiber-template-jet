@@ -1,4 +1,4 @@
-package jet
+package jetfiber
 
 import (
 	"fmt"
