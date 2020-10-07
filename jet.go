@@ -40,9 +40,10 @@ func Init(config ...Config) *Engine {
 	}
 
 	return &Engine{
-		config:    config[0],
-		functions: make(map[string]interface{}),
-		globals:   make(map[string]string),
+		config:        config[0],
+		functions:     make(map[string]interface{}),
+		fastFunctions: make(map[string]jet.Func),
+		globals:       make(map[string]string),
 	}
 }
 
